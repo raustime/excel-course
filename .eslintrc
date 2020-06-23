@@ -7,7 +7,9 @@
     },
     "rules": {
         "require-jsdoc":"off",
-        "indent":"off"
+        "indent":"off",
+        "arrow-parens":"off",
+        "comma-dangle":"off"
     },
     "extends": [
         "eslint:recommended", "google"
