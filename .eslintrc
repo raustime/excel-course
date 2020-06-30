@@ -10,7 +10,8 @@
         "indent":"off",
         "arrow-parens":"off",
         "comma-dangle":"off",
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "operator-linebreak":"off"
     },
     "extends": [
         "eslint:recommended", "google"
