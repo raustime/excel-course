@@ -11,15 +11,15 @@ function toCell() {
 
 function toColumn(data) {
     return `
-        <div class="column">${data}
-            <div class="col-resize"></div>
+        <div class="column" date-type="resizable">${data}
+            <div class="col-resize" data-resize="col"></div>
         </div>     
     `;
 }
 
 
 function createRow(index, data) {
-    const resizer=index?`<div class="row-resize"></div>`:'';
+    const resizer=index?`<div class="row-resize" data-resize="row"></div>`:'';
     return `
     <div class="row">
         <div class="row-info">${index?index:''}${resizer}
