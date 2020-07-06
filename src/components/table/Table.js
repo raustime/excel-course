@@ -17,31 +17,47 @@ export class Table extends ExcelComponent {
   // }
 
   onMousedown(event) {
-    // console.log(event.target.getAttribute('data-resize'));
     if (event.target.dataset.resize) {
-      // console.log('Resizing:', event.target.dataset.resize);
       const $resizer=$(event.target);
-      const type=$resizer.data.resize;
-      // const $parent=$resizer.$el.parentNode; // Bad practice!
-      // const $parent=$resizer.$el.closest('.column'); // better, but still not enough
       const $parent=$resizer.closest('[date-type="resizable"]'); // Best practice
-
       const coords=$parent.getCoords();
-      const cells=this.$root.findAll(`[data-col="${$parent.data.col}"]`);
+      const type=$resizer.data.resize;
+      const sideProp=type==='col'?'bottom':'right';
+      let value;
+      $resizer.css({
+        opacity: 1,
+        [sideProp]: '-5000px'
+      });
+      // const cells=this.$root.findAll(`[data-col="${$parent.data.col}"]`);
       document.onmousemove=e=>{
         if (type==='col') {
           const delta=e.pageX-coords.right;
-          const value=coords.width+delta;
-          $parent.$el.style.width=value+'px';
-          cells.forEach(el=>el.style.width=value+ 'px');
+          value=coords.width+delta;
+          $resizer.css({right: -delta + 'px'});
+          // $parent.css({width: value+'px'});
+          // cells.forEach(el=>el.style.width=value+ 'px');
         } else {
-          const delta=e.pageY-coords.bottom;
-          const value=coords.height+delta;
-          $parent.$el.style.height=value+'px';
+           const delta=e.pageY-coords.bottom;
+           value=coords.height+delta;
+           $resizer.css({bottom: -delta + 'px'});
+          // $parent.css({height: value+'px'});
         }
       };
       document.onmouseup=()=>{
         document.onmousemove=null;
+        document.onmouseup=null;
+        if (type==='col') {
+          $parent.css({width: value+'px'});
+          this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+              .forEach(el=>el.style.width=value+ 'px');
+        } else {
+          $parent.css({height: value+'px'});
+        }
+        $resizer.css({
+          opacity: 0,
+          bottom: 0,
+          right: 0
+        });
       };
     }
   }

@@ -54,7 +54,11 @@ class Dom {
   }
 
   css(style={}) {
-    return;
+    Object
+      .keys(style)
+      .forEach(key=>{
+        this.$el.style[key]=style[key];
+      });
   }
 }
 
